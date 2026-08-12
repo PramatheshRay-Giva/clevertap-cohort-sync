@@ -26,24 +26,26 @@ CT_REPLACE_EXISTING = False
 FILTERS_TO_PROCESS = [
     # P1 Filters
 
-    # "A1-P1-New", "B1-P1-New", "A1-P1-<M4", "D2-P1-Dormant", "A2-P1-<M4", 
-    # "A3-P1-<M4", "D1-P1-M7-12", "A2-P1-M4-6", "A1-P1-M4-6", "A3-P1-M4-6", 
-    # "B3-P1-<M4", "B2-P1-<M4", "C1-P1-<M4", "B3-P1-M4-6", "B2-P1-M4-6",
+    # "A1-P1-New", "B1-P1-New", 
+    "A1-P1-<M4", "D2-P1-Dormant", "A2-P1-<M4", 
+    "A3-P1-<M4", "D1-P1-M7-12", "A2-P1-M4-6", "A1-P1-M4-6", "A3-P1-M4-6", 
+    "B3-P1-<M4", "B2-P1-<M4", "C1-P1-<M4", "B3-P1-M4-6", "B2-P1-M4-6",
     # # P2 Filters
-    # "D3-P2-New", "D3-P2-<M4", "B1-P2-<M4", "A1-P2-New", "B1-P2-New", 
-    # "A2-P2-Dormant", "A2-P2-M7-12", "D3-P2-M4-6", "B1-P2-M4-6", "A1-P2-<M4", 
-    # "C1-P2-<M4", "B1-P2-Dormant", "A1-P2-M4-6", "A3-P2-Dormant", "A3-P2-M7-12", 
-    # "A3-P2-<M4", "B3-P2-M7-12", "A1-P2-M7-12", "B2-P2-M7-12", "B2-P2-Dormant", 
-    # "A1-P2-Dormant", "B3-P2-Dormant", "B2-P2-<M4", "A2-P2-<M4", "B3-P2-<M4", 
-    # "A3-P2-M4-6", "B2-P2-M4-6", "A2-P2-M4-6", "B3-P2-M4-6",
-    # # P3 Filters
-    # "B1-P3-New", "A1-P3-New", "B1-P3-<M4", "D3-P3-<M4", "D3-P3-New", 
-    # "B1-P3-Dormant", "B1-P3-M7-12", "B1-P3-M4-6", "D3-P3-M4-6", "A1-P3-<M4", 
-    # "A3-P3-M7-12", "A1-P3-M4-6", "A1-P3-M7-12", "A1-P3-Dormant", "A2-P3-M7-12", 
-    # "B2-P3-M7-12", "B3-P3-M7-12", "B3-P3-Dormant", "B2-P3-Dormant", "A2-P3-Dormant"
+    # "D3-P2-New",  "A1-P2-New", "B1-P2-New", 
+    "D3-P2-<M4", "B1-P2-<M4",
+    "A2-P2-Dormant", "A2-P2-M7-12", "D3-P2-M4-6", "B1-P2-M4-6", "A1-P2-<M4", 
+    "C1-P2-<M4", "B1-P2-Dormant", "A1-P2-M4-6", "A3-P2-Dormant", "A3-P2-M7-12", 
+    "A3-P2-<M4", "B3-P2-M7-12", "A1-P2-M7-12", "B2-P2-M7-12", "B2-P2-Dormant", 
+    "A1-P2-Dormant", "B3-P2-Dormant", "B2-P2-<M4", "A2-P2-<M4", "B3-P2-<M4", 
+    "A3-P2-M4-6", "B2-P2-M4-6", "A2-P2-M4-6", "B3-P2-M4-6",
+    # P3 Filters
+    # "B1-P3-New", "A1-P3-New",  "D3-P3-New",
+    "B1-P3-<M4", "D3-P3-<M4",
+    "B1-P3-Dormant", "B1-P3-M7-12", "B1-P3-M4-6", "D3-P3-M4-6", "A1-P3-<M4", 
+    "A3-P3-M7-12", "A1-P3-M4-6", "A1-P3-M7-12", "A1-P3-Dormant", "A2-P3-M7-12", 
+    "B2-P3-M7-12", "B3-P3-M7-12", "B3-P3-Dormant", "B2-P3-Dormant", "A2-P3-Dormant"
 
-'B2-P2-M7-12',
-'B3-P2-M7-12'
+
 ]
 
 # =====================================================
