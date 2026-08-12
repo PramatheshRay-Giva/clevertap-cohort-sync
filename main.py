@@ -40,9 +40,7 @@ FILTERS_TO_PROCESS = [
     # "B1-P3-Dormant", "B1-P3-M7-12", "B1-P3-M4-6", "D3-P3-M4-6", "A1-P3-<M4", 
     # "A3-P3-M7-12", "A1-P3-M4-6", "A1-P3-M7-12", "A1-P3-Dormant", "A2-P3-M7-12", 
     # "B2-P3-M7-12", "B3-P3-M7-12", "B3-P3-Dormant", "B2-P3-Dormant", "A2-P3-Dormant"
-    'A1-P2-<M4',
-'A1-P2-M4-6',
-'A1-P2-M7-12',
+
 'A2-P2-<M4',
 'A2-P2-M4-6',
 'A2-P2-M7-12',
