@@ -12,8 +12,9 @@ MB_USERNAME = "pramatheshray.ray@giva.co"
 MB_PASSWORD = os.getenv("MB_PASSWORD")  # Pulled safely from GitHub Secrets
 MB_CARD_ID = 22947
 
-# Automatically grab today's date 
-START_DATE = datetime.now().strftime("%d%b%y")
+# Automatically grab today's date
+START_DATE = datetime.now().strftime("%Y-%m-%d") # Metabase format (e.g., 2026-08-12)
+CT_DATE = datetime.now().strftime("%d%b%y")      # CleverTap format (e.g., 12Aug26)
 
 CT_ACCOUNT_ID = "R78-Z5K-847Z"
 CT_PASSCODE = os.getenv("CT_PASSCODE")  # Pulled safely from GitHub Secrets
@@ -158,7 +159,8 @@ def run_pipeline():
         print(f"--------------------------------------------------")
         print(f"⚙️ Processing Cohort: {filter_val}")
         
-        segment_name = f"{START_DATE}_{filter_val}" 
+        # Uses your custom naming convention: 12Aug26_A3-P2-<M4
+        segment_name = f"{CT_DATE}_{filter_val}"
         temp_csv = f"{filter_val}_temp.csv"
         
         for attempt in range(1, MAX_RETRIES + 1):
