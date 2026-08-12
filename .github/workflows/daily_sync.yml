@@ -28,4 +28,5 @@ jobs:
         env:
           MB_PASSWORD: ${{ secrets.MB_PASSWORD }}
           CT_PASSCODE: ${{ secrets.CT_PASSCODE }}
+          TZ: 'Asia/Kolkata'
         run: python -u main.py
