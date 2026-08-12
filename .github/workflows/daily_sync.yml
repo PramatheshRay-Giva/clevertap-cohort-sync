@@ -28,4 +28,4 @@ jobs:
         env:
           MB_PASSWORD: ${{ secrets.MB_PASSWORD }}
           CT_PASSCODE: ${{ secrets.CT_PASSCODE }}
-        run: python main.py
+        run: python -u main.py
