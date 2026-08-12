@@ -141,9 +141,6 @@ def upload_to_clevertap(file_path, segment_name):
 # =====================================================
 # 3. MAIN LOOP
 # =====================================================
-# =====================================================
-# 3. MAIN LOOP
-# =====================================================
 def run_pipeline():
     print("🔐 Authenticating with Metabase...")
     try:
@@ -154,37 +151,65 @@ def run_pipeline():
         
     print(f"🚀 Starting Pipeline for {len(FILTERS_TO_PROCESS)} cohorts. As-of Date: {START_DATE}\n")
     
+    MAX_RETRIES = 3
+    failed_cohorts = []  # <--- List to keep track of ultimate failures
+    
     for filter_val in FILTERS_TO_PROCESS:
         print(f"--------------------------------------------------")
         print(f"⚙️ Processing Cohort: {filter_val}")
-        segment_name = f"{START_DATE}_{filter_val}"
+        
+        segment_name = f"{START_DATE}_{filter_val}" 
         temp_csv = f"{filter_val}_temp.csv"
         
-        try:
-            print("    ⬇️ Fetching data from Metabase...")
-            fetch_metabase_csv(mb_headers, filter_val, temp_csv)
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                if attempt > 1:
+                    print(f"    🔄 Retry Attempt {attempt} of {MAX_RETRIES}...")
+                    
+                print("    ⬇️ Fetching data from Metabase...")
+                fetch_metabase_csv(mb_headers, filter_val, temp_csv)
+                
+                print("    🧹 Reformatting CSV for CleverTap...")
+                row_count = transform_csv_for_clevertap(temp_csv)
+                
+                if row_count > 0:
+                    print(f"    📤 Uploading {row_count:,} rows to CleverTap...")
+                    upload_to_clevertap(temp_csv, segment_name)
+                elif row_count == 0:
+                    print("    ⚠️ 0 rows returned. Skipping upload.")
+                    
+                break # Success! Break out of the retry loop.
+                
+            except Exception as e:
+                print(f"    ⚠️ Error on attempt {attempt}: {e}")
+                if attempt < MAX_RETRIES:
+                    print("    ⏳ Waiting 10 seconds before retrying...")
+                    time.sleep(10)
+                else:
+                    print(f"    ❌ Pipeline ultimately failed for {filter_val} after {MAX_RETRIES} attempts.")
+                    failed_cohorts.append(filter_val)  # <--- Add to failure list
             
-            print("    🧹 Reformatting CSV for CleverTap...")
-            row_count = transform_csv_for_clevertap(temp_csv)
+            finally:
+                if os.path.exists(temp_csv):
+                    os.remove(temp_csv)
             
-            if row_count > 0:
-                print(f"    📤 Uploading {row_count:,} rows to CleverTap...")
-                upload_to_clevertap(temp_csv, segment_name)
-            elif row_count == 0:
-                print("    ⚠️ 0 rows returned. Skipping upload.")
-        except Exception as e:
-            print(f"    ❌ Pipeline failed for {filter_val}: {e}")
-            
-        if os.path.exists(temp_csv):
-            os.remove(temp_csv)
-            
-        print("    ⏸️ Sleeping for 5 seconds...")
+        print("    ⏸️ Sleeping for 5 seconds before moving to the next cohort...")
         time.sleep(5)
         
-    print("\n🎉 Pipeline Complete!")
-
-if __name__ == "__main__":
-    run_pipeline()
+    # =====================================================
+    # FINAL SUMMARY LOG
+    # =====================================================
+    print("\n==================================================")
+    print("🎉 Pipeline Execution Complete!")
+    
+    if failed_cohorts:
+        print(f"⚠️ The following {len(failed_cohorts)} cohort(s) failed after {MAX_RETRIES} attempts:")
+        for cohort in failed_cohorts:
+            print(f"   - {cohort}")
+        print("\n💡 TIP: Temporarily update FILTERS_TO_PROCESS with just these names to re-run them.")
+    else:
+        print("✅ All cohorts processed successfully with 0 failures!")
+    print("==================================================\n")
 
 if __name__ == "__main__":
     run_pipeline()
