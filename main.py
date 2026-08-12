@@ -18,7 +18,7 @@ START_DATE = datetime.now().strftime("%Y-%m-%d")
 CT_ACCOUNT_ID = "R78-Z5K-847Z"
 CT_PASSCODE = os.getenv("CT_PASSCODE")  # Pulled safely from GitHub Secrets
 CT_REGION = "in1"
-CT_ADMIN_EMAIL = "pramatheshray.ray@giva.co"
+CT_ADMIN_EMAIL = "shah.neil@giva.co"
 CT_CREATOR_NAME = "Pramathesh Ray"
 CT_REPLACE_EXISTING = False
 
