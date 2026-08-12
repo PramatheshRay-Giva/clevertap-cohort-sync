@@ -12,8 +12,8 @@ MB_USERNAME = "pramatheshray.ray@giva.co"
 MB_PASSWORD = os.getenv("MB_PASSWORD")  # Pulled safely from GitHub Secrets
 MB_CARD_ID = 22947
 
-# Automatically grab today's date (YYYY-MM-DD)
-START_DATE = datetime.now().strftime("%Y-%m-%d")
+# Automatically grab today's date 
+START_DATE = datetime.now().strftime("%d%b%y")
 
 CT_ACCOUNT_ID = "R78-Z5K-847Z"
 CT_PASSCODE = os.getenv("CT_PASSCODE")  # Pulled safely from GitHub Secrets
@@ -156,6 +156,9 @@ def upload_to_clevertap(file_path, segment_name):
 # =====================================================
 # 3. MAIN LOOP
 # =====================================================
+# =====================================================
+# 3. MAIN LOOP
+# =====================================================
 def run_pipeline():
     print("🔐 Authenticating with Metabase...")
     try:
@@ -167,15 +170,20 @@ def run_pipeline():
     print(f"🚀 Starting Pipeline for {len(FILTERS_TO_PROCESS)} cohorts. As-of Date: {START_DATE}\n")
     
     for filter_val in FILTERS_TO_PROCESS:
+        print(f"--------------------------------------------------")
         print(f"⚙️ Processing Cohort: {filter_val}")
-        segment_name = f"{filter_val}_{START_DATE}"
+        segment_name = f"{START_DATE}_{filter_val}"
         temp_csv = f"{filter_val}_temp.csv"
         
         try:
+            print("    ⬇️ Fetching data from Metabase...")
             fetch_metabase_csv(mb_headers, filter_val, temp_csv)
+            
+            print("    🧹 Reformatting CSV for CleverTap...")
             row_count = transform_csv_for_clevertap(temp_csv)
             
             if row_count > 0:
+                print(f"    📤 Uploading {row_count:,} rows to CleverTap...")
                 upload_to_clevertap(temp_csv, segment_name)
             elif row_count == 0:
                 print("    ⚠️ 0 rows returned. Skipping upload.")
@@ -185,9 +193,13 @@ def run_pipeline():
         if os.path.exists(temp_csv):
             os.remove(temp_csv)
             
+        print("    ⏸️ Sleeping for 5 seconds...")
         time.sleep(5)
         
     print("\n🎉 Pipeline Complete!")
+
+if __name__ == "__main__":
+    run_pipeline()
 
 if __name__ == "__main__":
     run_pipeline()
